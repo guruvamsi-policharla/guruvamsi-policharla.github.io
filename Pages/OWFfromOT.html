@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>OWF from OT</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 60em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="black-box-oblivious-transfer-protocols-imply-one-way-functions">Black-box Oblivious Transfer protocols imply One Way Functions</h1>
+<h2 id="black-box-functionalities-vs.-black-box-protocols">Black-box functionalities vs. Black-box protocols</h2>
+<p>Before showing how an OT protocol can be used to build a PRG in a black-box manner it is good to understand the difference between a black-box protocol and a functionality.</p>
+<p>With an OT functionality, parties can only feed their inputs and receive outputs from the functionality. Whereas in a black-box OT protocol, the parties can actually transfer messages and randomness of the OT protocol to other parties. Note that this does not imply the parties can actually modify these messages – this would be non black-box.</p>
+<p>There is a clear separation between OT functionalities and OT black-box protocols. For example, in the OT black-box protocol, Alice can send two different “first” messages to Bob. After seeing these messages, Bob can choose not to respond to one of them <strong>after</strong> looking at both messages. Whereas with functionalities, both parties must supply their inputs to the functionality after which they receive their outputs.</p>
+<p>As a more interesting separation, black-box OT protocols can be used to realize security with identifiable abort in MPC but the same is impossible when using an OT functionality.</p>
+<h2 id="a-owf-from-oblivious-transfer">A OWF from Oblivious Transfer</h2>
+<p>Imagliazzo and Luby showed that OWF are implied by most interesting cryptographic primitives (with the exception of information-theoretic secret sharing). To do this they defined a Distributional OWF which helps capture the “one-wayness” of seemingly non one-way functions. To see the necessity of this definition consider a many-to-one function <span class="math inline"><em>f</em></span>. Given <span class="math inline"><em>f</em>(<em>x</em>)</span>, it is not possible to find the exact <span class="math inline"><em>x</em></span> which was used to compute <span class="math inline"><em>f</em>(<em>x</em>)</span>. A reasonable relaxation is to ask for any <span class="math inline"><em>y</em></span> such that <span class="math inline"><em>f</em>(<em>y</em>) = <em>f</em>(<em>x</em>)</span>. However, this allows inverters who may <strong>never</strong> guess the <span class="math inline"><em>x</em></span> used. Let <span class="math inline"><em>g</em>(<em>x</em>)</span> be a one way permutation and <span class="math inline"><em>f</em>(<em>x</em>,<em>y</em>)</span> evaluates to <span class="math inline"><em>x</em></span> if <span class="math inline"><em>y</em> = 0</span> and <span class="math inline"><em>g</em>(<em>x</em>)</span> otherwise. An inversion of <span class="math inline"><em>z</em> = <em>f</em>(<em>x</em>,<em>y</em>)</span> is <span class="math inline">(<em>z</em>,0)</span> which can be computed efficiently. However, there is some useful one-wayness embedded in <span class="math inline"><em>f</em></span> which this definition misses.</p>
+<h3 id="distributional-owf">Distributional OWF</h3>
+<p><span class="math inline"><em>f</em></span> is distributionally one-way if, for every ppt inverter <span class="math inline"><em>M</em></span>, <span class="math inline"><em>x</em>||<em>f</em>(<em>x</em>)</span> is statistically indistinguishable from <span class="math inline"><em>M</em>(<em>f</em>(<em>x</em>))||<em>f</em>(<em>x</em>)</span> where the distribution is taken over the input <span class="math inline"><em>x</em></span>.</p>
+<h3 id="construction">Construction</h3>
+<p>If <span class="math inline"><em>x</em>, <em>y</em></span> are Alice and Bob’s inputs respectively, then let <span class="math inline"><em>C</em>(<em>x</em>,<em>y</em>)</span> denote the transcript of the OT protocol.</p>
+<p>Claim: <span class="math inline"><em>f</em>(<em>x</em>||<em>y</em>) = <em>C</em>(<em>x</em>,<em>y</em>)</span> is a distributionally one-way function.</p>
+<p>Assume <span class="math inline"><em>f</em></span> is not distributionally one-way, and let <span class="math inline"><em>A</em> × <em>B</em></span> be the set of accepting inputs. Then there exists an efficient inverter <span class="math inline"><em>M</em></span> which, given a transcript <span class="math inline"><em>C</em>(<em>x</em>,<em>y</em>)</span> produces a pair <span class="math inline">(<em>a</em>,<em>b</em>) ∈ <em>A</em> × <em>B</em></span> whose distribution is statistically close to the uniform distribution over <span class="math inline"><em>A</em> × <em>B</em></span> and satisfying <span class="math inline"><em>C</em>(<em>a</em>,<em>b</em>) = <em>C</em>(<em>x</em>,<em>y</em>)</span>. Now note that if Alice’s input was <span class="math inline"><em>x</em> = <em>a</em></span>, then Bob’s input must have been the bit <span class="math inline"><em>b</em></span>. If it was <span class="math inline">1 − <em>b</em></span>, then that means Bob can extract both messages from Alice as irrespective of which input he used, the transcripts are identical. Also note that <span class="math inline">(<em>a</em>,<em>b</em>) = (<em>x</em>,<em>y</em>)</span> with non-negligible probability (in fact very close to 1/8). Thus Alice learns information about Bob’s input bit <span class="math inline"><em>b</em></span> violating security of the OT protocol. Hence by contradiction, <span class="math inline"><em>f</em></span> must be a distributionally one-way function.</p>
+<p>Imagliazzo and Luby also showed how any distributionally one-way function can be used to construct a one-way function. Thus black-box OT protocols imply OWFs.</p>
+<h2 id="references">References:</h2>
+<ol type="1">
+<li>Impagliazzo, R. and Luby, M. <em>One-way functions are essential for complexity based cryptography.</em></li>
+</ol>
+<h6 id="disclaimer-use-the-information-presented-here-at-your-own-risk.-you-may-find-inadvertent-errors-in-which-case-i-would-be-grateful-if-you-pointed-them-out-to-me.">Disclaimer: Use the information presented here at your own risk. You may find inadvertent errors in which case I would be grateful if you pointed them out to me.</h6>
+</body>
+</html>
