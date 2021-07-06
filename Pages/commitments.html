@@ -3,19 +3,19 @@
 <body>
 
   <h2>Create Commitments</h2>
-  <button onclick="commit('0')">0</button>
-  <p id="secret0"><tt>Secret:</tt></p>
-  <p id="hash0"><tt>Hash:</tt></p>
-
-  <button onclick="commit('1')">1</button>
-  <p id="secret1"><tt>Secret:</tt></p>
-  <p id="hash1"><tt>Hash:</tt></p>
+  <button onclick="commit('0')">0</button><br>
+  Secret: <input type="text", id="secret0", value="", style="width: 520px;font-family: monospace;", readonly><br>
+  Hash: <input type="text", id="hash0", value="", style="width: 520px;font-family: monospace;", readonly><br>
+  <br>
+  <button onclick="commit('1')">1</button><br>
+  Secret: <input type="text", id="secret1", value="", style="width: 520px;font-family: monospace;", readonly><br>
+  Hash: <input type="text", id="hash1", value="", style="width: 520px;font-family: monospace;",  readonly><br>
 
   <hr>
 
   <h2>Open Commitments</h2>
-  <input type="text", id="secret", value="Enter the secret", onfocus="this.value=''"><br>
-  <input type="text", id="hash", value="Enter the hash", onfocus="this.value=''"><br>
+  <input type="text", id="secret", value="Enter the secret", onfocus="this.value=''", style="width: 520px;font-family: monospace;"><br>
+  <input type="text", id="hash", value="Enter the hash", onfocus="this.value=''", style="width: 520px;font-family: monospace;"><br>
   <button onclick="opencom()">Check</button>
   <p id="opening"><tt>Opening:</tt></p>
   <script>
@@ -33,7 +33,6 @@
       const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);           // hash the message
       const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
       const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
-      //console.log(hashHex)
       return hashHex;
     }
     
@@ -46,10 +45,8 @@
       }
 
       var H = await digestMessage(R.concat(b));
-      document.getElementById("secret"+b.toString()).innerHTML = 'Secret: ' + R;
-      //document.getElementById("secret"+b.toString()).style.fontFamily = "monospace";
-      document.getElementById("hash"+b.toString()).innerHTML = 'Hash: ' + H;
-      //document.getElementById("hash"+b.toString()).style.fontFamily = "monospace";
+      document.getElementById("secret"+b.toString()).value = R;
+      document.getElementById("hash"+b.toString()).value = H;
     }
 
     async function opencom() {
