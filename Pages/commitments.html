@@ -47,9 +47,9 @@
 
       var H = await digestMessage(R.concat(b));
       document.getElementById("secret"+b.toString()).innerHTML = 'Secret: ' + R;
-      document.getElementById("secret"+b.toString()).style.fontFamily = "monospace";
+      //document.getElementById("secret"+b.toString()).style.fontFamily = "monospace";
       document.getElementById("hash"+b.toString()).innerHTML = 'Hash: ' + H;
-      document.getElementById("hash"+b.toString()).style.fontFamily = "monospace";
+      //document.getElementById("hash"+b.toString()).style.fontFamily = "monospace";
     }
 
     async function opencom() {
