@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>CoinFlipping</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 60em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="coin-flipping-over-the-phone">Coin Flipping Over The Phone</h1>
+<p>Say Alice and Bob live miles apart and want to flip a coin to settle something. How would they do it? In the remainder of this post, we will denote Heads by 0 and Tails by 1 for convenience.</p>
+<p>Clearly Alice can’t just flip a coin on her end and tell Bob over the phone. She can always answer with what leaves her winning. Can we maybe flip a coin each and ‘combine’ the answer? Consider the following natural idea.</p>
+<ul>
+<li>Alice flips a coin and obtains <span class="math inline"><em>b</em> = 0/1</span></li>
+<li>Bob flips a coin and obtains <span class="math inline"><em>b</em>′ = 0/1</span></li>
+<li>Alice and Bob tell each their their bits and compute the outcome of the coin flip by xoring the bits <span class="math inline"><em>b</em> ⊕ <em>b</em>′</span>. (xor is just addition modulo 2).</li>
+</ul>
+<p>While this protocol may look like it solves our problem, it needs Alice and Bob to tell each other their bits <em>simultaneously</em>. If Alice sends <span class="math inline"><em>b</em></span> to Bob first, then Bob can choose his bit <span class="math inline"><em>b</em>′</span> to influence the outcome to his favor.</p>
+<p>We seem to be getting closer. Can we somehow ensure this simultaneous exchange of messages? Cryptographic commitments to the rescue!</p>
+<h2 id="cryptographic-commitments">Cryptographic Commitments</h2>
+<p>Cryptographic commitments can be thought of as secure boxes with locks. You can place a message inside the box and lock it. You can then send this box to anyone but unless they receive the key from you, they can’t open it. This also ensures that once the box is locked and sent, the contents cannot be modified.</p>
+<p>Alice and Bob can now first place their messages inside locked boxes and send them to each other. Only after receiving the other party’s box, do they send each other the keys. This works because Alice and Bob must commit to a bit before seeing the other party’s bit.</p>
+<p>How do we actually build cryptographic commitments? We’ll discuss a very simple and efficient construction in the random oracle model that you can actually do in your browser.</p>
+<h3 id="random-oracles">Random Oracles</h3>
+<p>Think of random oracles as a magic orb in the sky which responds to any query with a uniformly random string of fixed length. For a good discussion on random oracles see the <a href="http://cseweb.ucsd.edu/~mihir/papers/ro.html">original paper</a> by Bellare and Rogaway or read the very well written <a href="https://blog.cryptographyengineering.com/2011/09/29/what-is-random-oracle-model-and-why-3/">5 part series</a> by Matt Green. In practice random oracles are replaced by cryptographic hash functions like SHA256.</p>
+<h3 id="committing">Committing</h3>
+<p>To commit to a message <span class="math inline"><em>m</em></span>, sample a string of random bits <span class="math inline"><em>R</em></span> and compute <span class="math inline"><em>C</em> = SHA256(<em>m</em>||<em>R</em>)</span>. <span class="math inline"><em>C</em></span> is a commitment to the message <span class="math inline"><em>m</em></span>. (The actual length of <span class="math inline"><em>R</em></span> depends on the level of security you want.)</p>
+<h3 id="opening">Opening</h3>
+<p>To open a commitment, send the randomness <span class="math inline"><em>R</em></span> used when committing and the message <span class="math inline"><em>m</em></span>. The receiver will compute <span class="math inline">SHA256(<em>m</em>||<em>R</em>)</span> and check if it matches the commitment. If it does, then the receiver accepts else rejects.</p>
+
+<hr>
+<h2>Create Commitments</h2>
+  <button onclick="commit('0')">Commit 0</button><br>
+  Secret: <input type="text", id="secret0", value="", style="width: 520px;font-family: monospace;", readonly><br>
+  Commitment: <input type="text", id="hash0", value="", style="width: 520px;font-family: monospace;", readonly><br>
+  <br>
+  <button onclick="commit('1')">Commit 1</button><br>
+  Secret: <input type="text", id="secret1", value="", style="width: 520px;font-family: monospace;", readonly><br>
+  Commitment: <input type="text", id="hash1", value="", style="width: 520px;font-family: monospace;",  readonly><br>
+
+  <hr>
+
+  <h2>Open Commitments</h2>
+  <input type="text", id="secret", value="Enter the secret", onfocus="this.value=''", style="width: 520px;font-family: monospace;"><br>
+  <input type="text", id="hash", value="Enter the commitment", onfocus="this.value=''", style="width: 520px;font-family: monospace;"><br>
+  <button onclick="opencom()">Check</button>
+  <p id="comopening">Opening:</p>
+  <script>
+    function dec2hex(dec) {
+      var hex = dec.toString(16);
+      if(hex.length < 2) {
+        hex = '0' + hex;
+      }
+      return hex;
+    }
+
+    // https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest
+    async function digestMessage(message) {
+      const msgUint8 = new TextEncoder().encode(message);                           // encode as (utf-8) Uint8Array
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);           // hash the message
+      const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
+      return hashHex;
+    }
+    
+    async function commit(b) {
+      var array = new Uint8Array(32);
+      var R = "";
+      window.crypto.getRandomValues(array);
+      for (var i = 0; i < array.length; i++) {
+        R = R+dec2hex(array[i]);
+      }
+
+      var H = await digestMessage(R.concat(b));
+      document.getElementById("secret"+b.toString()).value = R;
+      document.getElementById("hash"+b.toString()).value = H;
+    }
+
+    async function opencom() {
+      var secret = document.getElementById("secret").value;
+      var hash = document.getElementById("hash").value;
+      hash0 = await digestMessage(secret+'0');
+      if (hash0 == hash)
+      {
+        document.getElementById("comopening").innerHTML = 'Opening: 0';
+        return 0;
+      }
+      hash1 = await digestMessage(secret+'1'); 
+      if (hash1 == hash)
+      {
+        document.getElementById("comopening").innerHTML = 'Opening: 1';
+        return 0;
+      }
+      
+      document.getElementById("comopening").innerHTML = 'Opening: Failed';
+    }
+  </script>
+
+</body>
+</html>
