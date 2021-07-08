@@ -172,6 +172,7 @@
 
 <hr>
 <h2>Create Commitments</h2>
+Both you and your friend need to commit to either a 0/1 by clicking the buttons below. Then send each other your commitments (not your secret).<br>
   <button onclick="commit('0')">Commit 0</button><br>
   Secret: <input type="text", id="secret0", value="", style="width: 520px;font-family: monospace;", readonly><br>
   Commitment: <input type="text", id="hash0", value="", style="width: 520px;font-family: monospace;", readonly><br>
@@ -183,9 +184,11 @@
   <hr>
 
   <h2>Open Commitments</h2>
+  Once you've both received commitmentss, send each other your secret. Having received your friend's secret you can now open their commitment by plugging in their commitment and the secret below.
+  The output of the coin flip is the xor of your and your friends bits. <br>
   <input type="text", id="secret", value="Enter the secret", onfocus="this.value=''", style="width: 520px;font-family: monospace;"><br>
   <input type="text", id="hash", value="Enter the commitment", onfocus="this.value=''", style="width: 520px;font-family: monospace;"><br>
-  <button onclick="opencom()">Check</button>
+  <button onclick="opencom()">Open</button>
   <p id="comopening">Opening:</p>
   <script>
     function dec2hex(dec) {
